@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import axios from "axios";
 
 /* Style */
-// import "./App.scss";
+import "./App.scss";
 import "./App.css";
 
 /* Heading */

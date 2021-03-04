@@ -53,7 +53,7 @@ public class ProductGridController {
         // Code to query the database and
         Connection con;
         try {
-        	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sake", "root", "Planners0!");
+        	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sake", "root", "Hamstringrunner003!");
         	Statement stmt = con.createStatement();
         	ResultSet rs = stmt.executeQuery("select product_id, title, upper(sku) as sku,\n" + 
         			"        			\n" + 

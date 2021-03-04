@@ -53,7 +53,7 @@ public class CustomerGridController {
         // Code to query the database and
         Connection con;
         try {
-        	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sake", "root", "Planners0!");
+        	con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sake", "root", "Hamstringrunner003!");
         	Statement stmt = con.createStatement();
         	ResultSet sortQ = stmt.executeQuery("select customers_grid_sort from params where session_id=666");
         	if(sortQ.next()){
