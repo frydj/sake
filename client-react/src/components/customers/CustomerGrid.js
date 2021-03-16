@@ -1,14 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import edit from "../../img/edit.png";
-import editHover from "../../img/editHover.png";
-import deleteIcon from "../../img/delete.png";
-import deleteHover from "../../img/deleteHover.png";
-import newItem from "../../img/new.png";
-import refresh from "../../img/refresh.png";
 import { Tooltip } from 'react-tippy';
-
 import $ from "jquery";
 
 class CustomerGrid extends React.Component {
@@ -449,6 +442,28 @@ class CustomerGrid extends React.Component {
         editURL: url
       })
     }
+    refreshGrid = () => {
+      // clear .grid_search
+      let searches = document.getElementsByClassName("grid_search");
+      for(var i = 0; i < searches.length; i++) {
+        searches[i].value = "";
+      }
+      let heads = document.getElementsByTagName("th");
+      // th remove class .asc, .desc
+      for(var v = 0; v < heads.length; v++) {
+        heads[v].classList.remove("asc"); 
+        heads[v].classList.remove("desc"); 
+      }
+
+      console.log("refreshGrid ran");
+      let url = "/params/666";
+      axios.put(url, {
+        customersGridFilter: null,
+        customersGridSort: null
+      })
+      this.getData();
+      console.log("refreshGrid completed");
+    }
     
     // GET READY
     
@@ -461,16 +476,14 @@ class CustomerGrid extends React.Component {
         <div className="gridToolbox">
 
         
-        <div className="gridTool">
-          <Tooltip className="tippen" title='Refresh Grid' position='bottom-start'>
-            <img alt="Clear Grid" className="gridToolIcon" src={refresh} />
+        <div id="grid-refresh" className="gridTool" onClick={this.refreshGrid}>
+          <Tooltip arrow="true" title='Refresh Grid' position='bottom-start'>
           </Tooltip>
         </div>
         
         
-        <div className="gridTool">
-        <Tooltip title='New Customer' position='bottom-start'>
-            <img alt="New Customer" className="gridToolIcon" src={newItem} />
+        <div id="grid-new" className="gridTool" onClick={this.newGrid}>
+        <Tooltip arrow="true" title='New Customer' position='bottom-start' offsetY="30">
           </Tooltip>
         </div>
         </div>
@@ -529,12 +542,14 @@ class CustomerGrid extends React.Component {
         <td>
         <div className="actionTableData">
         <div className="actionIconsContainer">
-        <span title="Edit Customer"><img alt="edit" className="visible actionEdit" src={edit} /></span>
-        <Link to={this.state.editURL}><span onMouseOver={() => this.editCustomer(p.custID)} title="Edit Customer"><img alt="edit" className="hiddenIcon actionEdit" src={editHover} /></span></Link>
+          <div className="gridAction">
+            <Link to={this.state.editURL}><span onMouseOver={() => this.editCustomer(p.custID)} title="Edit Customer"></span></Link>
+          </div>
         </div>
         <div className="actionIconsContainer">
-        <span title="Delete Customer"><img alt="delete" className="visible actionDelete" src={deleteIcon} /></span>
-        <span onClick={() => this.deleteCustomer(p.custID)} title="Delete Customer"><img alt="delete" className="hiddenIcon actionDelete" src={deleteHover} /></span>
+          <div className="gridAction">
+            <span onClick={() => this.deleteCustomer(p.custID)} title="Delete Customer"></span>
+          </div>
         </div>
         </div>
         </td>

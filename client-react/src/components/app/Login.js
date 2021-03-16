@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import logo from '../../img/logo.png';
 import cellsales from '../../img/cellsales.png';
-import '../../App.css';
+// import '../../App.css';
 
 function handleSubmit(event) {
     event.preventDefault();

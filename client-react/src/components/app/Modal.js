@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import '../../App.css';
+// import '../../App.css';
 
 class Modal extends React.Component {
   

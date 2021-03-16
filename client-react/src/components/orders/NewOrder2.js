@@ -1,8 +1,6 @@
 import React from "react";
 import axios from "axios";
 import $ from 'jquery'; 
-import list from "../../img/list.png";
-import tile from "../../img/tile.png";
 import Modal from "../app/Modal";
 
 class NewOrder extends React.Component {
@@ -626,8 +624,8 @@ class NewOrder extends React.Component {
                     <div className="productSearchContainerOuter">
                     <div className="productSearchSearch">
                     <input ref={this.productSearch} autoComplete="chrome-off" onChange={this.searchProduct} id="productSearch" type="text" placeholder="Type or Scan Here to Search..." />
-                    <div title="List View" className="productSearchViewType hidden" id="listView" onClick={this.listView}><img alt="listView" src={list} /></div>
-                    <div title="Tile View" className="productSearchViewType" id="tileView" onClick={this.tileView}><img alt="tileView" src={tile} /></div>
+                    <div title="List View" className="productSearchViewType hidden" id="listView" onClick={this.listView}></div>
+                    <div title="Tile View" className="productSearchViewType" id="tileView" onClick={this.tileView}></div>
                     </div>
                     <div className="productSearchResultsRow">
                     {this.state.productSearch.map(

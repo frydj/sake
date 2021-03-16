@@ -5,11 +5,13 @@ import axios from "axios";
 
 /* Style */
 import "./App.scss";
-import "./App.css";
+import "./light.css";
+import { DarkTheme } from '../src/components/app/DarkTheme.js';
 
 /* Heading */
 import Header from "./components/app/Header";
 import Navbar from "./components/app/Navbar";
+import Settings from "./components/app/Settings";
 
 /* Customers */
 import NewCustomer from "./components/customers/NewCustomer";
@@ -19,7 +21,7 @@ import EditCustomer from "./components/customers/EditCustomer";
 /* Orders */
 import NewOrder from "./components/orders/NewOrder";
 import NewOrder2 from "./components/orders/NewOrder2";
-import OrdersGrid from "./components/orders/OrdersGrid";
+// import OrdersGrid from "./components/orders/OrdersGrid";
 import EditOrder from "./components/orders/EditOrder";
 
 /* Quotes */
@@ -29,7 +31,7 @@ import EditQuote from "./components/quotes/EditQuote";
 
 /* Products */
 import NewProduct from "./components/products/NewProduct";
-import ProductsGrid from "./components/products/ProductsGrid";
+// import ProductsGrid from "./components/products/ProductsGrid";
 import EditProduct from "./components/products/EditProduct";
 
 /* Reports */
@@ -38,19 +40,47 @@ import TotalsByDate from "./components/reports/TotalsByDate";
 import Login from "./components/app/Login";
 
 class App extends React.Component {
-  
+
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       session_id: 666,
       username: "",
       password: "",
-      loggedIn: "true"
+      userID: 9,
+      userSettings: [],
+      styles: null,
+      loggedIn: "true",
+      theme: '',
+      darkEnabled: false,
+      agent: {
+        name: "Derek Fry",
+        phone: "(336) 406-3385",
+        email: "derek.fry2@cellularsales.com"
+      }
     };
     this.hideSpinner = this.hideSpinner.bind(this);
     // this.checkUserLoggedIn = this.checkUserLoggedIn.bind(this);
   }
-  
+
+  componentDidMount() {
+    this.checkUserLoggedIn();
+    this.getUserSettings();
+    document.addEventListener("keypress", this.resetTimer);
+    document.addEventListener("mousemove", this.resetTimer);
+/*     setTimeout(() => {
+      this.setThemeOK();
+    },200) */
+  }
+
+  setThemeOK = () => {
+    if(this.state.userSettings["theme"] === "light") {
+      global.darkEnabled = false;
+    } else {
+      global.darkEnabled = true;
+    }
+  }
+
   handler = (val) => {
     this.setState({
       loggedIn: val
@@ -58,56 +88,94 @@ class App extends React.Component {
   }
 
   checkUserLoggedIn = () => {
-    // checks to see if the user is logged in
-    // redirects to login page if NOT logged in
-    // redirects to /customers if IS logged in
     axios.get("/params/" + this.state.session_id).then(response => {
       global.loggedInVar = response.data.logged_in;
-      this.setState({username: response.data.user});
-      // console.log(global.loggedInVar);
-      // console.log("state: " + this.state.loggedIn);
-      // console.log("checkUserLoggedIn ran & returned " + global.loggedInVar);
-      // console.log(global.loggedInVar);
-      this.redirect();
+      this.setState({ username: response.data.user },function() {
+        this.redirect();
+      });
     });
   }
-  
-  redirect = () => {    
-    // console.log("redirect was called");
+
+  redirect = () => {
     let location = "/customers";
-    if (global.loggedInVar === "true" && window.location.pathname === "/login" ) {
+    if (global.loggedInVar === "true" && window.location.pathname === "/login") {
       window.location.pathname = location;
-      // console.log("redirected to CUSTOMERS");
-    } else if ( global.loggedInVar !== "true" && window.location.pathname !== "/login" ) {
+    } else if (global.loggedInVar !== "true" && window.location.pathname !== "/login") {
       window.location.pathname = "/login";
-      // this.props.history.push("/login");
-      // console.log("redirected to LOGIN");
     }
     this.forceUpdate();
     this.hideSpinner();
   }
-  
-  componentDidMount() {
-    // console.log("app mounted");
-    this.checkUserLoggedIn();
-    // console.log("login check performed");
-    // console.log(this.state.loggedIn);
-    document.addEventListener("keypress", this.resetTimer);
-    document.addEventListener("mousemove", this.resetTimer);
+
+  themeToggler = () => {
+    console.log("themeToggler ran");
+    axios.get("/usersetting/9").then(
+      response => (global.theme = response.data.theme)
+    ).then(
+      setTimeout(() => {
+        global.theme === 'light' ? global.themeToggled = 'dark' : global.themeToggled = 'light';
+        // UPDATE DB & THEME HERE
+        axios.put("/usersetting/9", {
+          theme: global.themeToggled
+        });
+        setTimeout(() => {
+          if (this.state.userSettings["theme"] === 'dark') {
+            this.setState({
+              darkEnabled: true
+            }, function() {
+              // this.setThemeOK();
+              this.getUserSettings();
+            })
+          } else {
+            this.setState({
+              darkEnabled: false
+            }, function() {
+              // this.setThemeOK();
+              this.getUserSettings();
+            })
+          }
+        },200)
+        // TOGGLE GLOBAL VARIABLE
+        global.theme === 'light' ? global.theme = 'dark' : global.theme = 'light';
+      }, 200)
+    );
+          
   }
-  
+
+  getUserSettings = () => {
+    let url = "/usersetting/9";
+    axios.get(url).then(response => {
+      this.setState({
+        userSettings: response.data,
+        darkEnabled: response.data["theme"] === 'dark' ? true : false
+      }/*,function() {
+        setTimeout(() => {
+          if (this.state.userSettings["theme"] === 'dark') {
+            this.setState({
+              darkEnabled: true
+            })
+          } else {
+            this.setState({
+              darkEnabled: false
+            })
+          }
+          console.log("dark enabled: " + this.state.darkEnabled);
+        },10)
+      }*/)
+    });
+    setTimeout(() => {
+      console.log(this.state.darkEnabled)
+    },200)
+  }
+
   resetTimer = () => {
     clearTimeout(global.time);
     global.time = setTimeout(() => {
-      // this.checkUserLoggedIn();
       axios.get("/params/" + this.state.session_id).then(response => {
         global.loggedInVar2 = response.data.logged_in;
-        if(global.loggedInVar2 === "true") {
-        this.logOut();
-        console.log("reset timer was called as " + global.loggedInVar2);
-      } else {
-        console.log("reset timer was called as " + global.loggedInVar2);
-      }
+        if (global.loggedInVar2 === "true") {
+          this.logOut();
+        }
       })
       // 12 hours
     }, 43200000);
@@ -115,69 +183,62 @@ class App extends React.Component {
 
   logOut = () => {
     let url = "/params/666";
-    axios.put(url, { 
-      //session_id: 666,
-      // user: document.getElementById("username").value,
-      // password: document.getElementById("password").value,
+    axios.put(url, {
       logged_in: "false"
-  },
-/*         { params: {
-      session_id: this.state.session_id
-    }} */).then(response => {
-    console.log("log out was called");
-    window.location.pathname = "/login";
-  })
+    },).then(response => {
+      window.location.pathname = "/login";
+    })
   }
 
-  authenticate(){
+  authenticate() {
     return new Promise(resolve => setTimeout(resolve, 200)) // 2 seconds
   }
-  
+
   hideSpinner = () => {
     this.authenticate().then(() => {
       const ele = document.getElementById("spinner");
       const bg = document.getElementById("spinnerBG");
-      if(ele){
+      if (ele) {
         // fade out
         ele.classList.add('available');
         bg.classList.add('available')
       }
     })
   }
-  
+
   render() {
     return (
       <div className="App">
-      <Router>
-      <Header session_id={this.state.session_id} user={this.state.username} /> 
-      <Navbar />
-      {/* Login */}
-      <Route exact path="/login" render={() => <Login handler={this.handler} />} />      
-      {/* Customers */}
-      <Route path="/newcustomer" render={() => <NewCustomer checkUser={this.checkUserLoggedIn} />} />      
-      <Route path="/customers" render={() => <CustomerGrid checkUser={this.checkUserLoggedIn} />} />      
-      <Route path="/editcustomer" render={() => <EditCustomer checkUser={this.checkUserLoggedIn} />} />          
-      {/* Quotes */}
-      <Route path="/quoter" render={() => <Quoter checkUser={this.checkUserLoggedIn} />} />      
-      <Route path="/editquote" render={() => <EditQuote checkUser={this.checkUserLoggedIn} />} />      
-      {/* Orders */}
-      <Route path="/neworder" component={NewOrder} />
-      <Route path="/neworder2" component={NewOrder2} />
-      <Route path="/orders" component={OrdersGrid} />
-      <Route path="/editorder" component={EditOrder} />
-      {/* Products */}
-      <Route path="/newproduct" render={() => <NewProduct checkUser={this.checkUserLoggedIn} />} />
-      <Route path="/products" render={() => <ProductsGrid checkUser={this.checkUserLoggedIn} />} />
-      <Route path="/editproduct" component={EditProduct} />
-      {/* Reports */}
-      <Route path="/reports/totalsbycustomer" render={() => <TotalsPerCustomer checkUser={this.checkUserLoggedIn} />} />
-      <Route path="/reports/totalsbydate" render={() => <TotalsByDate checkUser={this.checkUserLoggedIn} />} />
-
-      </Router>
+        {this.state.userSettings['theme'] === 'dark' ? <DarkTheme /> : null}
+        <Router>
+          <Header session_id={this.state.session_id} user={this.state.username} />
+          <Navbar />
+          <Route path="/settings" render={() => <Settings checkUser={this.checkUserLoggedIn} themeToggler={this.themeToggler} />} />
+          {/* Login */}
+          <Route exact path="/login" render={() => <Login handler={this.handler} />} />
+          {/* Customers */}
+          <Route path="/newcustomer" render={() => <NewCustomer checkUser={this.checkUserLoggedIn} />} />
+          <Route path="/customers" render={() => <CustomerGrid checkUser={this.checkUserLoggedIn} />} />
+          <Route path="/editcustomer" render={() => <EditCustomer checkUser={this.checkUserLoggedIn} />} />
+          {/* Quotes */}
+          <Route path="/quoter" render={() => <Quoter agent={this.state.agent} checkUser={this.checkUserLoggedIn} />} />
+          <Route path="/editquote" render={() => <EditQuote checkUser={this.checkUserLoggedIn} />} />
+          {/* Orders */}
+          <Route path="/neworder" component={NewOrder} />
+          <Route path="/neworder2" component={NewOrder2} />
+          {/* <Route path="/orders" component={OrdersGrid} /> */}
+          <Route path="/editorder" component={EditOrder} />
+          {/* Products */}
+          <Route path="/newproduct" render={() => <NewProduct checkUser={this.checkUserLoggedIn} />} />
+          {/* <Route path="/products" render={() => <ProductsGrid checkUser={this.checkUserLoggedIn} />} /> */}
+          <Route path="/editproduct" component={EditProduct} />
+          {/* Reports */}
+          <Route path="/reports/totalsbycustomer" render={() => <TotalsPerCustomer checkUser={this.checkUserLoggedIn} />} />
+          <Route path="/reports/totalsbydate" render={() => <TotalsByDate checkUser={this.checkUserLoggedIn} />} />
+        </Router>
       </div>
-      );
-    }
+    );
   }
-  
-  export default App;
-  
+}
+
+export default App;

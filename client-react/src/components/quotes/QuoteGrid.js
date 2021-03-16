@@ -1,10 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import edit from "../../img/edit.png";
-import editHover from "../../img/editHover.png";
-import deleteIcon from "../../img/delete.png";
-import deleteHover from "../../img/deleteHover.png";
 
 class QuoteGrid extends React.Component {
   constructor(props) {

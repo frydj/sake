@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+// import cellularsales from "../../img/cellsales.png";
+// import authretailer from "../../img/authretailer.png";
 
 class Quoter extends React.Component {  
   constructor(props) {
@@ -7,7 +9,59 @@ class Quoter extends React.Component {
     this.state = { quotes: [],
       dataAvailable: "noData",
       pageTitle: "New Quote",
-      deleteQuote: "Jeff"
+      deleteQuote: "Jeff",
+      quoteID: 9,
+      custID: 9,
+      mtns: [
+        {
+          "line" : "1",
+          "newupg" : false,
+          "owned" : false,
+          "buyout" : false,
+          "name" : "",
+          "device" : "",
+          "plan" : "",
+          "downpayment" : "",
+          "dpp" : "",
+          "owed" : "",
+          "maxtrade" : "",
+          "features" : "",
+          "promos" : "",
+          "total" : ""
+        },
+        {
+          "line" : "2",
+          "newupg" : false,
+          "owned" : false,
+          "buyout" : false,
+          "name" : "",
+          "device" : "",
+          "plan" : "",
+          "downpayment" : "",
+          "dpp" : "",
+          "owed" : "",
+          "maxtrade" : "",
+          "features" : "",
+          "promos" : "",
+          "total" : ""
+        },
+        {
+          "line" : "3",
+          "newupg" : false,
+          "owned" : false,
+          "buyout" : false,
+          "name" : "",
+          "device" : "",
+          "plan" : "",
+          "downpayment" : "",
+          "dpp" : "",
+          "owed" : "",
+          "maxtrade" : "",
+          "features" : "",
+          "promos" : "",
+          "total" : ""
+        }
+      ]
     };
     this.firstName = React.createRef();
     this.lastName = React.createRef();
@@ -59,7 +113,8 @@ class Quoter extends React.Component {
   };
 
   validateForm = () => {
-    this.validateFirstName();
+    this.validateCustomerName();
+    this.validateCustomerPhone();
     this.validateLastName();
     this.validateMowTrim();
     this.validatePaymentType();
@@ -81,220 +136,150 @@ class Quoter extends React.Component {
       }
     }
     
-    validateFirstName = () => {
-      let firstName = document.getElementById("firstName");
-      let firstNameErr = document.getElementById("firstNameErr");
-      if(firstName.value === "") {
-        firstNameErr.className = "errorMessage";
-        firstName.className = "formValidate";
-        document.getElementsByClassName("formSubHeader")[0].scrollIntoView({behavior: "smooth"});
-      } else {
-        firstNameErr.className = "errorMessage hidden";
-        firstName.className = "";
-      }
-    }
-    
-    validateLastName = () => {
-      let lastName = document.getElementById("lastName");
-      let lastNameErr = document.getElementById("lastNameErr");
-      if(lastName.value === "") {
-        lastNameErr.className = "errorMessage";
-        lastName.className = "formValidate";
-        document.getElementsByClassName("formSubHeader")[0].scrollIntoView({behavior: "smooth"});
-      } else {
-        lastNameErr.className = "errorMessage hidden";
-        lastName.className = "";
-      }
-    }
-    
-    validateMowTrim = () => {
-      let mtrate = document.getElementById("mtrate");
-      let mtErr = document.getElementById("mtErr");
-      if(mtrate.value === "") {
-        mtErr.className = "errorMessage";
-        mtrate.className = "formValidate";
-      } else {
-        mtErr.className = "errorMessage hidden";
-        mtrate.className = "";
-      }
-    }
-    
-    validatePaymentType = () => {
-      let paymentType = document.getElementById("paymentType");
-      let paymentTypeErr = document.getElementById("paymentTypeErr");
-      if(paymentType.value === "") {
-        paymentTypeErr.className = "errorMessage";
-        paymentType.className = "formValidate";
-      } else {
-        paymentTypeErr.className = "errorMessage hidden";
-        paymentType.className = "";
+    validate = (id, err) => {
+      let a = document.getElementById(id);
+      let b = document.getElementById(err);
+      if(a.value === "") {
+        b.className = "errorMessage";
+        a.className = "formValidate";
+/*         document.getElementsByClassName("formSubHeader")[0].scrollIntoView({behavior: "smooth"});
+ */      } else {
+        b.className = "errorMessage hidden";
+        a.className = "";
       }
     }
     
     render() {
       
       return (
-        <div className="customer">
+        <div className="component">
         <h3>Quote Builder</h3>
-        
-        <form action="">
-        
-        <h4 className="formSubHeader">CONTACT INFORMATION:</h4>
-        
-        <div className="responsiveFormContainer">
-        <div className="responsiveForm">
-        
-        <div className="field">
-        <div id="firstNameErr" className="errorMessage hidden">Please enter first name.</div>
-        <input autoFocus onChange={this.validateFirstName} type="text" ref={this.firstName} name="firstName" id="firstName" placeholder="Jane" />
-        <label htmlFor="firstName">First Name</label>
-        </div>
-        
-        
-        <div className="field">
-        <div id="lastNameErr" className="errorMessage hidden">Please enter last name.</div>
-        <input onChange={this.validateLastName} type="text" ref={this.lastName} name="lastName" id="lastName" placeholder="Appleseed" />
-        <label htmlFor="lastName">Last Name</label>
-        </div>
-        
-        
-        </div>        
-        <div className="responsiveForm">
-        
-        
-        <div className="field">
-        <input type="number" ref={this.phone} name="phone" id="phone" placeholder="(123) 456-7890" />
-        <label htmlFor="phone">Phone</label>
-        </div>
-        
-        <div className="field">
-        <input type="text" ref={this.email} name="email" id="email" placeholder="jane.appleseed@icloud.com" />
-        <label htmlFor="email">Email</label>
-        </div>
-        
-        </div>
-        </div>
-        
-        
-        
-        <h4 className="formSubHeader">ADDRESS:</h4>
-        
-        <div className="responsiveFormContainer">
-        <div className="responsiveForm">
-        
-        <div className="field">
-        <input type="text" ref={this.address1} name="address1" id="address1" placeholder="4 Privet Dr." />
-        <label htmlFor="address1">Address</label>
-        </div>
-        
-        <div className="field">
-        <input type="text" ref={this.address2} name="address2" id="address2" placeholder="Apt 3A" />
-        <label htmlFor="address2">Address 2</label>
-        </div>
-        
-        </div>
-        <div className="responsiveForm">
-        
-        <div className="field">
-        <input type="city" ref={this.city} name="city" id="city" placeholder="Chicago" />
-        <label htmlFor="city">City</label>
-        </div>       
-        
-        <div className="field">
-        <input type="state" ref={this.stateName} name="state" id="state" placeholder="IL" />
-        <label htmlFor="state">State</label>
-        </div>
-        
-        </div>
-        <div className="responsiveForm">
+        <div className="quoterContainer">
+           
+        <div className="printArea">
 
+        <div className="logoBanner">
+          <div id="cellularSales" className="logo1"></div>
+          <div id="verizon" className="logo2"></div>
+        </div>
+
+        <div className="summaryBanner">Summary (DATE)</div>
+
+        <div className="responsiveFormColContainer">
+        
+        <div className="responsiveFormCol">
+        {/* Customer Name */}
         <div className="field">
-        <input type="number" ref={this.zip} name="zip" id="zip" placeholder="12345" />
-        <label htmlFor="zip">Zip</label>
+        <div id="custNameErr" className="errorMessage hidden">Please enter customer's name.</div>
+        <input autoFocus onChange={() => this.validate("custName", "custNameErr")} type="text" ref={this.custName} name="custName" id="custName" placeholder="John Doe" />
+        <label htmlFor="custName">Customer Name</label>
         </div>
-        
+        {/* Customer Phone */}
         <div className="field">
-        <input defaultValue="United States" type="country" ref={this.country} name="country" id="country" placeholder="United States" />
-        <label htmlFor="country">Country</label>
+        <div id="custPhoneErr" className="errorMessage hidden">Please enter customer's phone number.</div>
+        <input type="text" onChange={() => this.validate("custPhone", "custPhoneErr")} ref={this.custPhone} name="custPhone" id="custPhone" placeholder="(123) 456-7890" />
+        <label htmlFor="custPhone">Customer Phone</label>
         </div>
-        
-        </div>
-        </div>
-        
-        <h4 className="formSubHeader">RATES & PAYMENT:</h4>
-        
-        <div className="responsiveFormContainer">
-        
-        <div className="responsiveForm">
-        
+        {/* Customer Email */}
         <div className="field">
-        <div id="mtErr" className="errorMessage hidden">Please enter mow/trim rate.</div>
-        <input onChange={this.validateMowTrim} type="number" ref={this.mtrate} name="mtrate" id="mtrate" placeholder="$100.00" />
-        <label htmlFor="mtrate">Mow/Trim Rate</label>
+        <div id="custEmailErr" className="errorMessage hidden">Please enter customer's email address.</div>
+        <input type="text" onChange={() => this.validate("custEmail", "custEmailErr")} ref={this.custEmail} name="custEmail" id="custEmail" placeholder="someone@something.com" />
+        <label htmlFor="custEmail">Customer Email</label>
         </div>
-        
-        
+        </div>
+
+        <div className="responsiveFormCol">
+        {/* Agent Name */}
         <div className="field">
-        <div id="paymentTypeErr" className="errorMessage hidden">Please choose a payment type.</div>
-        <select onChange={this.validatePaymentType} defaultValue="" ref={this.paymentType} name="paymentType" id="paymentType" >
-        <option value="" disabled>Select...</option>
-        <option value="Cash">Cash</option>
-        <option value="Credit">Credit</option>
-        </select>
-        <label htmlFor="paymentType">Payment Type</label>
+        <div id="agentNameErr" className="errorMessage hidden">Please enter your (agent) name.</div>
+        <input onChange={() => this.validate("agentName", "agentNameErr")} type="text" ref={this.agentName} name="agentName" id="agentName" defaultValue={this.props.agent.name} placeholder="Janie Smith" />
+        <label htmlFor="agentName">Agent Name</label>
+        </div>
+        {/* Agent Phone */}
+        <div className="field">
+        <div id="agentPhoneErr" className="errorMessage hidden">Please enter your (agent) phone number.</div>
+        <input onChange={() => this.validate("agentPhone", "agentPhoneErr")} type="text" ref={this.agentPhone} name="agentPhone" id="agentPhone" defaultValue={this.props.agent.phone} placeholder="(123) 456-7890" />
+        <label htmlFor="agentPhone">Agent Phone</label>
+        </div>
+        {/* Agent Email */}
+        <div className="field">
+        <div id="agentEmailErr" className="errorMessage hidden">Please enter your (agent) email address.</div>
+        <input type="text" onChange={() => this.validate("agentEmail", "agentEmailErr")} ref={this.agentEmail} name="agentEmail" id="agentEmail" defaultValue={this.props.agent.email} placeholder="me@cellularsales.com" />
+        <label htmlFor="agentEmail">Agent Email</label>
+        </div>
+        </div>
 
         </div>
-        
-        </div>
-        <div className="responsiveForm">
 
-        <div className="field">
-        <input type="number" ref={this.mtfrate} name="mtfrate" id="mtfrate" placeholder="$100.00" />
-        <label htmlFor="mtfrate">Front Yard Rate</label>
+        <div className="monthlyOuter">
+        <div className="monthlyInner">
+        <h4>Monthly Bill:</h4>
+        <div className="quoterTable">
+
+        <table>
+          <tbody>
+            <tr>
+              <th className="colXs">LINE</th>
+              <th className="colSq">NEW /<br />UPG.</th>
+              <th className="colSq">NO<br />DPP</th>
+              <th className="colSq">BUY<br />OUT</th>
+              <th className="colMd">NAME</th>
+              <th className="colLg">DEVICE</th>
+              <th className="colMd">PLAN</th>
+              <th className="colSm">DOWN <br />PAYMENT</th>
+              <th className="colSm">DPP <br />(MONTHLY)</th>
+              <th className="colSm">OWED<br />($)</th>
+              <th className="colSm">MAX <br />TRADE</th>
+              <th className="colSm">LINE<br />FEATURES</th>
+              <th className="colSm">PROMOS <br />($)</th>
+            </tr>
+            {this.state.mtns.map(p => (
+            <tr key={p.line}>
+              <td className="noTouch center">{p.line}</td>
+              <td className="tableChx center"><input id={p.line + "newupg"} type="checkbox" /></td>
+              <td className="tableChx center"><input id={p.line + "owned"} type="checkbox" /></td>
+              <td className="tableChx center"><input id={p.line + "buyout"} type="checkbox" /></td>
+              <td className="tableTxt"><input type="text" defaultValue={p.name} className="tableTxtInput" /></td>
+              <td className="tableTxt"><input type="text" defaultValue={p.device} className="tableTxtInput" /></td>
+              <td className="tableTxt"><input type="text" defaultValue={p.plan} className="tableTxtInput" /></td>
+              <td className="tableTxt"><input type="text" defaultValue={p.downpayment} className="tableCurInput" /></td>
+              <td className="tableTxt"><input type="text" defaultValue={p.dpp} className="tableCurInput" /></td>
+              <td className="tableTxt"><input type="text" defaultValue={p.owed} className="tableCurInput" /></td>
+              <td className="tableTxt"><input type="text" defaultValue={p.maxtrade} className="tableCurInput" /></td>
+              <td className="tableTxt"><input type="text" defaultValue={p.features} className="tableCurInput" /></td>
+              <td className="tableTxt"><input type="text" defaultValue={p.promos} className="tableCurInput" /></td>
+            </tr>
+              ))
+              }
+          </tbody>
+        </table>
+
+        <table>
+          <tbody>
+            <tr>
+              <th className="totals">Totals</th>
+            </tr>
+            {this.state.mtns.map(p => (
+              <tr key={p.line + "total"}>
+                <td className="tdTotals">{p.total}</td>
+              </tr>
+            ))
+            }
+          </tbody>
+        </table>
+
+        </div>
+
+        <div className="addRow" id="addRow">add row</div>
+
+        </div>
+        </div>
+
+
         </div>
         
-        <div className="field">
-        <input type="number" ref={this.mtbrate} name="mtbrate" id="mtbrate" placeholder="$100.00" />
-        <label htmlFor="mtbrate">Back Yard Rate</label>
-        </div>
-        
-        </div>
-        <div className="responsiveForm">
-                
-        <div className="field">
-        <select defaultValue="" ref={this.basis} name="basis" id="basis" >
-        <option value="" disabled>Select...</option>
-        <option value="Weekly">Weekly</option>
-        <option value="Bi-Weekly">Bi-Weekly</option>
-        </select>
-        <label htmlFor="basis">Basis</label>
-        </div>
-        
-        <div className="field">
-        <select defaultValue="" ref={this.day} name="day" id="day" >
-        <option value="" disabled>Select...</option>
-        <option value="Monday">Monday</option>
-        <option value="Tuesday">Tuesday</option>
-        <option value="Wednesday">Wednesday</option>
-        <option value="Thursday">Thursday</option>
-        <option value="Friday">Friday</option>
-        <option value="Saturday">Saturday</option>
-        <option value="Sunday">Sunday</option>
-        </select>
-        <label htmlFor="day">Day</label>
-        </div>
-        
         </div>
         </div>
-        
-        <button className="responsiveButton newSave" type="button" onClick={this.validateForm}>Save Quote</button>
-        
-        </form>
-        
-        </div>
-        
-        
-        
         );
       }
     }

@@ -691,7 +691,7 @@ class EditProduct extends React.Component {
 
 </form>
 ))
-};
+}
 
 </div>
 

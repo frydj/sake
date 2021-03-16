@@ -1,9 +1,11 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 // import axios from "axios";
-import logo from '../../img/logo.png';
-import cellsales from '../../img/cellsales.png';
-import '../../App.css';
+// import logo from '../../img/logo.png';
+import leaf from '../../img/leaf.png';
+import cellsales from '../../img/cellsalesLight.png';
+import sake from '../../img/sake.png'
+// import '../../App.css';
 
 class Header extends React.Component {  
 
@@ -12,10 +14,20 @@ class Header extends React.Component {
     return (
       <div className="header">
           <div className="logoStrip">
-              <img src={logo} id="logoSmall" alt="logo" className="logoSmall"/>
-              <span className="logoWords">saké</span>
+            <div id="darkModeFade"></div>
+            <div id="darkModeTint"></div>
+            <div id="darkModeTint2"></div>
+            <div className="left">
+              {/* <img src={logo} id="logoSmall" alt="logo" className="logoSmall"/> */}
+              {/* <span className="logoWords">saké</span> */}
+              <img alt="sake" src={sake} className="sake" />
+              <img alt="leaf" src={leaf} className="leaf" />
               <img src={cellsales} id="cellsales" alt="Cellular Sales" className="cellsales"/>
+            </div>
+            <div className="right">
               <span id="user">{this.props.user}</span>
+              <Link to="/settings" ><span id="settings"></span></Link>
+            </div>
           </div>
       </div>
     );
