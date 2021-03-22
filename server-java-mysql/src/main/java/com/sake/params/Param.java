@@ -23,7 +23,21 @@ public class Param {
 	String reportDateFrom;
 	String reportDateTo;
 	String posView;
+	String typeAheadInput;
+	String typeAheadTable;
 	
+	public String getTypeAheadInput() {
+		return typeAheadInput;
+	}
+	public void setTypeAheadInput(String typeAheadInput) {
+		this.typeAheadInput = typeAheadInput;
+	}
+	public String getTypeAheadTable() {
+		return typeAheadTable;
+	}
+	public void setTypeAheadTable(String typeAheadTable) {
+		this.typeAheadTable = typeAheadTable;
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getSession_id() {

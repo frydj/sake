@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import TypeAhead from '../app/tools/TypeAhead.js'
 // import cellularsales from "../../img/cellsales.png";
 // import authretailer from "../../img/authretailer.png";
 
@@ -85,6 +86,10 @@ class Quoter extends React.Component {
     this.validateForm = this.validateForm.bind(this);
   }
   
+  getData = () => {
+    axios.get("https://bireports.csoki.com/reports/report/Reports/Electronic%20Disclosure%20Summary").then(response => console.log(response.data))
+  }
+
   addQuote = () => {
     let url = "/quote";
     axios.post(url, { 
@@ -153,6 +158,7 @@ class Quoter extends React.Component {
       
       return (
         <div className="component">
+          <TypeAhead obj="device" />
         <h3>Quote Builder</h3>
         <div className="quoterContainer">
            
@@ -271,6 +277,7 @@ class Quoter extends React.Component {
         </div>
 
         <div className="addRow" id="addRow">add row</div>
+        <div className="addRow" id="getData" onClick={this.getData}>get data</div>
 
         </div>
         </div>
@@ -279,6 +286,7 @@ class Quoter extends React.Component {
         </div>
         
         </div>
+
         </div>
         );
       }

@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'; 
-import cellsalesLight from '../../img/cellsalesLight.png';
-import authretailerLight from '../../img/authretailerLight.png';
+import cellsalesLight from '../../../img/cellsalesLight.png';
+import authretailerLight from '../../../img/authretailerLight.png';
 
 // let nearBlack = "#1F1F1F";
 let nightBase0 = "#000000";

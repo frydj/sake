@@ -6,7 +6,7 @@ import axios from "axios";
 /* Style */
 import "./App.scss";
 import "./light.css";
-import { DarkTheme } from '../src/components/app/DarkTheme.js';
+import { DarkTheme } from './components/app/tools/DarkTheme.js';
 
 /* Heading */
 import Header from "./components/app/Header";
@@ -161,11 +161,12 @@ class App extends React.Component {
           }
           console.log("dark enabled: " + this.state.darkEnabled);
         },10)
-      }*/)
+      }*/,function() {
+        setTimeout(() => {
+          console.log(this.state.darkEnabled)
+        },200)
+      })
     });
-    setTimeout(() => {
-      console.log(this.state.darkEnabled)
-    },200)
   }
 
   resetTimer = () => {
@@ -213,7 +214,7 @@ class App extends React.Component {
         <Router>
           <Header session_id={this.state.session_id} user={this.state.username} />
           <Navbar />
-          <Route path="/settings" render={() => <Settings checkUser={this.checkUserLoggedIn} themeToggler={this.themeToggler} />} />
+          <Route path="/settings" render={() => <Settings checkUser={this.checkUserLoggedIn} themeToggler={this.themeToggler} getUserSettings={this.getUserSettings} darkEnabled={this.state.darkEnabled} />} />
           {/* Login */}
           <Route exact path="/login" render={() => <Login handler={this.handler} />} />
           {/* Customers */}

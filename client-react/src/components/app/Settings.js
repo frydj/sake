@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
 // import ThemeChanger from "../../ThemeChanger.js";
 
 class Settings extends React.Component {
@@ -9,6 +9,7 @@ class Settings extends React.Component {
             user: "",
             pageTitle: "Settings",
             themeStyle: "light",
+            refreshed: "ok"
         };
     }
 
@@ -17,7 +18,7 @@ class Settings extends React.Component {
     }
 
     getSettings = () => {
-        // console.log(" GET SETTINGS !! ")
+/*         // console.log(" GET SETTINGS !! ")
         axios.get("/usersetting/9").then(
             response => (global.theme = response.data.theme)
         ).then(
@@ -36,7 +37,21 @@ class Settings extends React.Component {
                     }
                 }, 100)
             }, 100)
-        );
+            ); */
+            let darkMode = document.getElementById("darkMode");
+            this.props.getUserSettings();
+            setTimeout(() => {
+                this.setState({
+                    refresh: "OK"
+                },function() {
+                    if (this.props.darkEnabled === true) {
+                        darkMode.checked = true;
+                    } else {
+                        darkMode.checked = false;
+                    }
+                    console.log("PROPS IS " + this.props.darkEnabled);
+                })
+            },200)
     }
 
     setThemeProp = (something) => {
