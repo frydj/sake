@@ -24,8 +24,29 @@ public class Param {
 	String reportDateTo;
 	String posView;
 	String typeAheadInput;
+	String typeAheadSelect;
 	String typeAheadTable;
-	
+	String typeAheadArgs;
+	String typeAheadOrder;
+		
+	public String getTypeAheadOrder() {
+		return typeAheadOrder;
+	}
+	public void setTypeAheadOrder(String typeAheadOrder) {
+		this.typeAheadOrder = typeAheadOrder;
+	}
+	public String getTypeAheadArgs() {
+		return typeAheadArgs;
+	}
+	public void setTypeAheadArgs(String typeAheadArgs) {
+		this.typeAheadArgs = typeAheadArgs;
+	}
+	public String getTypeAheadSelect() {
+		return typeAheadSelect;
+	}
+	public void setTypeAheadSelect(String typeAheadSelect) {
+		this.typeAheadSelect = typeAheadSelect;
+	}
 	public String getTypeAheadInput() {
 		return typeAheadInput;
 	}

@@ -39,6 +39,9 @@ import TotalsPerCustomer from "./components/reports/TotalsPerCustomer";
 import TotalsByDate from "./components/reports/TotalsByDate";
 import Login from "./components/app/Login";
 
+/* Literature */
+import Intergroup from "./components/literature/Intergroup";
+
 class App extends React.Component {
 
   constructor(props) {
@@ -108,7 +111,6 @@ class App extends React.Component {
   }
 
   themeToggler = () => {
-    console.log("themeToggler ran");
     axios.get("/usersetting/9").then(
       response => (global.theme = response.data.theme)
     ).then(
@@ -159,12 +161,8 @@ class App extends React.Component {
               darkEnabled: false
             })
           }
-          console.log("dark enabled: " + this.state.darkEnabled);
         },10)
       }*/,function() {
-        setTimeout(() => {
-          console.log(this.state.darkEnabled)
-        },200)
       })
     });
   }
@@ -236,6 +234,8 @@ class App extends React.Component {
           {/* Reports */}
           <Route path="/reports/totalsbycustomer" render={() => <TotalsPerCustomer checkUser={this.checkUserLoggedIn} />} />
           <Route path="/reports/totalsbydate" render={() => <TotalsByDate checkUser={this.checkUserLoggedIn} />} />
+          {/* LITERATURE */}
+          <Route path="/aaliterature" render={() => <Intergroup checkUser={this.checkUserLoggedIn} />} />
         </Router>
       </div>
     );

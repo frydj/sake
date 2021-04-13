@@ -70,6 +70,7 @@ public class ProductController {
     	foundProduct.setDepartment(product.getDepartment());
     	foundProduct.setBrand(product.getBrand());
     	foundProduct.setOut_of_stock(product.getOut_of_stock());
+    	foundProduct.setVendor_sku(product.getVendor_sku());
     	
     	productRepository.save(foundProduct);
       return foundProduct;

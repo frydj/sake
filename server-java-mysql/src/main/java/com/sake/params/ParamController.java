@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 // import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sake.customers.Customer;
-import com.sake.params.Param;
+// import com.sake.customers.Customer;
+// import com.sake.params.Param;
 
 
 
@@ -109,7 +109,18 @@ public class ParamController {
         		if (param.getCustomersGridFilter() != null) {
         		foundParam.setCustomersGridFilter(param.getCustomersGridFilter());
         		}
-        	
+        		if (param.getTypeAheadInput() != null) {
+                foundParam.setTypeAheadInput(param.getTypeAheadInput());
+        		}
+        		if (param.getTypeAheadSelect() != null) {
+                foundParam.setTypeAheadSelect(param.getTypeAheadSelect());
+        		}
+        		if (param.getTypeAheadTable() != null) {
+                foundParam.setTypeAheadTable(param.getTypeAheadTable());
+        		}
+        		if (param.getTypeAheadArgs() != null) {
+        			foundParam.setTypeAheadArgs(param.getTypeAheadArgs());
+            	}
         	paramsRepository.save(foundParam);
           return foundParam;
         }

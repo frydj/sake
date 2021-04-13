@@ -15,6 +15,7 @@ class Quoter extends React.Component {
       custID: 9,
       mtns: [
         {
+          "mtnID" : 1,
           "line" : "1",
           "newupg" : false,
           "owned" : false,
@@ -31,6 +32,7 @@ class Quoter extends React.Component {
           "total" : ""
         },
         {
+          "mtnID" : 2,
           "line" : "2",
           "newupg" : false,
           "owned" : false,
@@ -47,6 +49,7 @@ class Quoter extends React.Component {
           "total" : ""
         },
         {
+          "mtnID" : 3,
           "line" : "3",
           "newupg" : false,
           "owned" : false,
@@ -158,7 +161,10 @@ class Quoter extends React.Component {
       
       return (
         <div className="component">
-          <TypeAhead obj="device" />
+          <TypeAhead obj="device" table="products" select="title_price" show="10" />
+          <br />
+          <br />
+          <TypeAhead obj="device2" table="products" select="title_price" show="3" />
         <h3>Quote Builder</h3>
         <div className="quoterContainer">
            
@@ -246,8 +252,14 @@ class Quoter extends React.Component {
               <td className="tableChx center"><input id={p.line + "owned"} type="checkbox" /></td>
               <td className="tableChx center"><input id={p.line + "buyout"} type="checkbox" /></td>
               <td className="tableTxt"><input type="text" defaultValue={p.name} className="tableTxtInput" /></td>
-              <td className="tableTxt"><input type="text" defaultValue={p.device} className="tableTxtInput" /></td>
-              <td className="tableTxt"><input type="text" defaultValue={p.plan} className="tableTxtInput" /></td>
+              {/* <td className="tableTxt"><input type="text" defaultValue={p.device} className="tableTxtInput" /></td> */}
+              <td className="tableTxt">
+                <TypeAhead obj={p.mtnID + "device"} show="8" cstyle="TypeAheadQuoteGrid" select="title as returnedData, price as secondary" table="products" args={["title","sku"]} addArgs="category='devices'" order="secondary asc" />
+                </td>
+                
+              <td className="tableTxt">
+                <TypeAhead obj={p.mtnID + "plan"} show="8" cstyle="TypeAheadQuoteGrid" select="plan_name as returnedData, rate_one as secondary" table="plans" args={["plan_name"]} addArgs="device_type='phone'" order="secondary asc" />
+              </td>
               <td className="tableTxt"><input type="text" defaultValue={p.downpayment} className="tableCurInput" /></td>
               <td className="tableTxt"><input type="text" defaultValue={p.dpp} className="tableCurInput" /></td>
               <td className="tableTxt"><input type="text" defaultValue={p.owed} className="tableCurInput" /></td>

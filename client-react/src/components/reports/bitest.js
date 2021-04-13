@@ -2,6 +2,9 @@ import React from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 
+// APPLICATION ID: 0eb6a82f-110d-43fd-a47c-8eee0f2f2c96
+// APPLICATION SECRET: dNx2SopgxSr1v5epLEAp/vFjTrihpFaiAHY4mfylaXE=
+
 class TotalsByDate extends React.Component {
     constructor(props) {
         super(props);

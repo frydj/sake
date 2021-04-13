@@ -34,7 +34,14 @@ public class Product {
   private String department;
   private String brand;
   private String out_of_stock;
+  private String vendor_sku;
   
+public String getVendor_sku() {
+	return vendor_sku;
+}
+public void setVendor_sku(String vendor_sku) {
+	this.vendor_sku = vendor_sku;
+}
 public Long getProduct_id() {
 	return product_id;
 }
